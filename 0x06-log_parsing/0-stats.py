@@ -1,30 +1,30 @@
 #!/usr/bin/python3
-""" Parses Logs """
+"""read stdin lines"""
 import sys
 
+size = 0
+status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
+count = 0
 
-i = 0
-FileSize = 0
-status = {'200': 0, '301': 0, '400': 0, '401': 0,
-          '403': 0, '404': 0, '405': 0, '500': 0}
-codes = ['200', '301', '400', '401', '403', '404', '405', '500']
 try:
-    for line in sys.stdin:
-        i += 1
-        sp = line.split(' ')
-        if len(sp) > 2:
-            FileSize += int(sp[-1])
-            if sp[-2] in status:
-                status[sp[-2]] += 1
-        if i % 10 == 0:
-            print("File size: {}".format(FileSize))
-            for code in codes:
-                if status[code]:
-                    print("{}: {}".format(code, status[code]))
+    for lines in sys.stdin:
+        try:
+            elements = lines.split(" ")
+            status_code = int(elements[7])
+            file_size = int(elements[8])
+            if status_code in status_codes:
+                status_codes[status_code] += 1
+                size += file_size
+            count += 1
+        except Exception:
+            pass
+        if count % 10 == 0:
+            print('File size: {}'.format(size))
+            for status_code in sorted(status_codes.keys()):
+                print("{}: {}".format(status_code, status_codes[status_code]))
+            count = 0
 except KeyboardInterrupt:
-    pass
-finally:
-    print("File size: {}".format(FileSize))
-    for code in codes:
-        if status[code]:
-            print("{}: {}".format(code, status[code]))
+    print('File size: {}'.format(size))
+    for status_code in sorted(status_codes.keys()):
+        print("{}: {}".format(status_code, status_codes[status_code]))
+    raise
