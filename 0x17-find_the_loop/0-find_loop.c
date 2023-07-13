@@ -20,7 +20,7 @@ listint_t *find_listint_loop(listint_t *head)
 		if (f == s)
 			break;
 		s = s->next;
-		fast = f->next->next;
+		f = f->next->next;
 	}
 	if (!f || !(f->next))
 		return (NULL);
