@@ -11,15 +11,13 @@ def pascal_triangle(n):
     """
     if n <= 0:
         return []
-    if n == 1:
-        return [[1, ], ]
-    if n == 2:
-        return [[1, ], [1, 1]]
-    pascal = [[1, ], [1, 1]]
-    for i in range(3, n + 1):
-        row = [1, ]
-        for x in range(len(pascal[-1]) - 1):
-            row.append(pascal[-1][x] + pascal[-1][x + 1])
+    pascal = []
+    for i in range(n):
+        row = []
         row.append(1)
+        for j in range(1,i):
+            row.append(pascal[i-1][j-1] + pascal[i-1][j])
+        if(i!=0) :
+            row.append(1)
         pascal.append(row)
     return pascal
