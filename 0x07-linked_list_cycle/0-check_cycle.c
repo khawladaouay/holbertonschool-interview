@@ -7,20 +7,19 @@
  */
 int check_cycle(listint_t *list)
 {
-	listint_t *tortoise, *hare;
+	listint_t *slow, *fast;
 
 	if (!list)
 		return (0);
-	tortoise = list;
-	if (!list->next)
-		return (0);
-	hare = (list->next)->next;
-	while (hare && hare->next)
+	slow = list;
+	fast = (list->next)->next;
+	while (fast && fast->next)
 	{
-		if (tortoise == hare)
+		if (slow == fast)
 			return (1);
-		tortoise = tortoise->next;
-		hare = (hare->next)->next;
+		slow = slow->next;
+		fast = (fast->next)->next;
 	}
 	return (0);
+
 }
