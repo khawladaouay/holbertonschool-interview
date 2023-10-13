@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-0. Change comes from within
-"""
+"""Change comes from within"""
 
 
 def makeChange(coins, total):
